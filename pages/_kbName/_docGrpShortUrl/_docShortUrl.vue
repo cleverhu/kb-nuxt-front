@@ -83,6 +83,8 @@ export default {
     };
   },
   created() {
+    this.docInfo = JSON.parse('{"code":10000,"result":[{"label":"2.0-Linux bash脚本特性","url":"Vziiuq","children":[{"label":"1.9-Linux内存调优化","url":"yAju6j"},{"label":"1.8-Linux SELinux安全","url":"beiABz"}]},{"label":"1.7-Linux iptables及浅说tcp ip","url":"3Inuem","children":[{"label":"1.6-Linux yum包管理器","url":"aiiQFf"},{"label":"1.5-Linux vim编辑器及文件查找","url":"uEjm63"}]},{"label":"1.4-Linux权限模型","url":"meiqie","children":[{"label":"1.3-Linux文件系统详解","url":"Mf6jqm","children":[{"label":"1.2-Linux系统启动及内核设计风格","url":"Q3QZjm"}]}]},{"label":"1.1-Linux发展现状","url":"jAN7Rn","children":[{"label":"1.0-Linux源起","url":"mauEjq"}]}]}').result
+
     this.kbInfo.kbName = this.$route.params.kbName
     this.kbInfo.docGrpShortUrl = this.$route.params.docGrpShortUrl
     this.kbInfo.docShortUrl = this.$route.params.docShortUrl
