@@ -9,9 +9,15 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "core-js": "^3.8.2",
     "element-ui": "^2.15.0",
     "nuxt": "^2.14.12"
   },
-  "devDependencies": {}
+  "config": {
+    "nuxt": {
+      "host": "0.0.0.0",
+      "port": "3000"
+    }
+  }
 }

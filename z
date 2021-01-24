@@ -1,0 +1,15 @@
+cd ..
+tar -czvf mynuxt.tar.gz my-nuxt-demo
+sshpass -p 'Hu928973510!' scp mynuxt.tar.gz ruler@101.132.107.3:/home/ruler/
+sshpass -p 'Hu928973510!' ssh ruler@101.132.107.3 <<end
+tar -xzvf mynuxt.tar.gz
+cd my-nuxt-demo
+rm -rf .nuxt
+rm -rf node_modules
+rm package-lock.json
+docker build -t nuxt_first:v1  .
+kubectl delete -f ~/mydeployments/kb/kb.yaml
+kubectl apply -f ~/mydeployments/kb/kb.yaml
+exit
+end
+cd my-nuxt-demo
