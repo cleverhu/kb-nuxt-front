@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-container>
-      <el-aside>
+      <el-aside style="height: calc(100vh - .29524rem);">
         <el-tag>
           目录
         </el-tag>
@@ -18,9 +18,12 @@
       <el-container>
         <el-main>
           {{ content }}
+
         </el-main>
         <el-footer>
-          footer
+          <div>
+            <span style="display:block;text-align:center;"> footer</span>
+          </div>
         </el-footer>
       </el-container>
 
@@ -129,7 +132,7 @@ export default {
             //console.log(sonUrl,par[i].children[j])
             // console.log(this.getParentShortUrl(sonUrl, par[i].children[j]))
             let result = this.getParentShortUrl(sonUrl, par[i].children[j])
-            if ( result !== undefined) {
+            if (result !== undefined) {
               return result
             }
           }
