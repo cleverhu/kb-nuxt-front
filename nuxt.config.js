@@ -10,12 +10,15 @@ export default {
       {name: 'viewport', content: 'width=device-width, initial-scale=1'},
       {hid: 'description', name: 'description', content: ''}
     ],
+
     link: [
-      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
+      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'},
+      {rel: "stylesheet", type: "text/css", href: "http://techcss.jtthink.com/main.css"}
     ]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
+  //"http://techcss.jtthink.com/main.css"
   css: [
     'element-ui/lib/theme-chalk/index.css'
   ],
