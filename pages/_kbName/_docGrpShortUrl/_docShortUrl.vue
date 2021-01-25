@@ -5,9 +5,9 @@
     <el-container>
       <el-header style="margin-top: 20px;margin-bottom: 0!important;height:40px">
         <el-breadcrumb separator="/">
-          <el-breadcrumb-item><a :href="kbInfo.kbName">{{kbInfo.kbName}}</a></el-breadcrumb-item>
-          <el-breadcrumb-item><a :href="kbInfo.docGrpShortUrl">{{kbInfo.docGrpShortUrl}}</a></el-breadcrumb-item>
-          <el-breadcrumb-item><a :href="kbInfo.docShortUrl">{{kbInfo.docShortUrl}}</a></el-breadcrumb-item>
+          <el-breadcrumb-item><a :href="'/'+kbInfo.kbName">{{kbInfo.kbName}}</a></el-breadcrumb-item>
+          <el-breadcrumb-item v-if="kbInfo.docGrpShortUrl!==undefined"><a :href="'/'+kbInfo.kbName+'/'+kbInfo.docGrpShortUrl" >{{kbInfo.docGrpShortUrl}}</a></el-breadcrumb-item>
+          <el-breadcrumb-item v-if="kbInfo.docShortUrl!==undefined"><a :href="'/'+kbInfo.kbName+'/'+kbInfo.docGrpShortUrl+'/'+kbInfo.docShortUrl">{{kbInfo.docShortUrl}}</a></el-breadcrumb-item>
         </el-breadcrumb>
       </el-header>
       <el-container>
