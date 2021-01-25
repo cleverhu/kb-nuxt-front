@@ -3,11 +3,11 @@
   <div>
 
     <el-container>
-      <el-header style="margin-top: 20px;margin-bottom: 0!important;">
+      <el-header style="margin-top: 20px;margin-bottom: 0!important;height:40px">
         <el-breadcrumb separator="/">
           <el-breadcrumb-item><a :href="kbInfo.kbName">{{kbInfo.kbName}}</a></el-breadcrumb-item>
-          <el-breadcrumb-item><a :href="kbInfo.kbName">{{kbInfo.docGrpShortUrl}}</a></el-breadcrumb-item>
-          <el-breadcrumb-item><a :href="kbInfo.kbName">{{kbInfo.docShortUrl}}</a></el-breadcrumb-item>
+          <el-breadcrumb-item><a :href="kbInfo.docGrpShortUrl">{{kbInfo.docGrpShortUrl}}</a></el-breadcrumb-item>
+          <el-breadcrumb-item><a :href="kbInfo.docShortUrl">{{kbInfo.docShortUrl}}</a></el-breadcrumb-item>
         </el-breadcrumb>
       </el-header>
       <el-container>
@@ -20,8 +20,8 @@
                    :default-expand-all="true"
                    node-key="url"
                    :current-node-key="$route.params.docShortUrl"
+                   style="background-color:darkgray;"
           >
-
           </el-tree>
         </el-aside>
         <el-container style="margin-right: 20%">
