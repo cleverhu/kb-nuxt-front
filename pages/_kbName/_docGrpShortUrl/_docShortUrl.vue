@@ -22,7 +22,17 @@
                    @node-click="handleNodeClick"
                    :default-expand-all="true"
                    node-key="url"
+                   v-if="kbInfo.docShortUrl!==undefined"
                    :current-node-key="kbInfo.docShortUrl"
+                   style="background-color:#fafafa!important;position:fixed;"
+          >
+          </el-tree>
+          <el-tree :data="docInfo" :props="defaultProps"
+                   @node-click="handleNodeClick"
+                   :default-expand-all="true"
+                   node-key="url"
+                   v-else
+                   :current-node-key="kbInfo.docGrpShortUrl"
                    style="background-color:#fafafa!important;position:fixed;"
           >
           </el-tree>
@@ -49,7 +59,7 @@ export default {
     return {
       content: "",
       kbInfo: {kbName: "", docGrpShortUrl: "", docShortUrl: "", grpName: "", docName: ""},
-      docInfo:[],
+      docInfo: [],
       defaultProps: {
         children: 'children',
         label: 'label'
