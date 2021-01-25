@@ -3,15 +3,18 @@
   <div>
 
     <el-container>
-      <el-header style="margin-top: 20px;margin-bottom: 0!important;height:60px;position: fixed;">
-        <el-breadcrumb separator="/" >
-          <el-breadcrumb-item><a :href="'/'+kbInfo.kbName">{{kbInfo.kbName}}</a></el-breadcrumb-item>
-          <el-breadcrumb-item v-if="kbInfo.docGrpShortUrl!==undefined"><a :href="'/'+kbInfo.kbName+'/'+kbInfo.docGrpShortUrl" >{{kbInfo.docGrpShortUrl}}</a></el-breadcrumb-item>
-          <el-breadcrumb-item v-if="kbInfo.docShortUrl!==undefined"><a :href="'/'+kbInfo.kbName+'/'+kbInfo.docGrpShortUrl+'/'+kbInfo.docShortUrl">{{kbInfo.docShortUrl}}</a></el-breadcrumb-item>
+      <el-header style="margin-top: 20px;height:60px;position: fixed;">
+        <el-breadcrumb separator="/">
+          <el-breadcrumb-item><a :href="'/'+kbInfo.kbName">{{ kbInfo.kbName }}</a></el-breadcrumb-item>
+          <el-breadcrumb-item v-if="kbInfo.docGrpShortUrl!==undefined"><a
+            :href="'/'+kbInfo.kbName+'/'+kbInfo.docGrpShortUrl">{{ kbInfo.grpName }}</a></el-breadcrumb-item>
+          <el-breadcrumb-item v-if="kbInfo.docShortUrl!==undefined"><a
+            :href="'/'+kbInfo.kbName+'/'+kbInfo.docGrpShortUrl+'/'+kbInfo.docShortUrl">{{ kbInfo.docName }}</a>
+          </el-breadcrumb-item>
         </el-breadcrumb>
       </el-header>
-      <el-container style="position:fixed;top:60px;overflow:scroll;bottom:0;">
-        <el-aside style="height: calc(100vh);position: fixed;">
+      <el-container style="position:fixed;top:60px;bottom:0;">
+        <el-aside style="height: calc(100vh);position: fixed;width: 30%!important;">
           <el-tag style="margin-top: 10px;margin-bottom: 10px;margin-left: 10px">
             目录
           </el-tag>
@@ -19,14 +22,14 @@
                    @node-click="handleNodeClick"
                    :default-expand-all="true"
                    node-key="url"
-                   :current-node-key="$route.params.docShortUrl"
-                   style="background-color:#fafafa!important;width: 300px;bottom:0;top:60px;position:fixed;height:100%;overflow-y: scroll"
+                   :current-node-key="kbInfo.docShortUrl"
+                   style="background-color:#fafafa!important;position:fixed;"
           >
           </el-tree>
         </el-aside>
         <el-container style="margin-left:320px;">
           <el-main>
-            <div v-html="content" > </div>
+            <div v-html="content"></div>
           </el-main>
           <el-footer>
             <div>
@@ -41,49 +44,12 @@
 
 <script>
 export default {
-  name: "_docShortUrl",
+  name: "docShortUrl",
   data() {
     return {
       content: "",
-      kbInfo: {kbName: "", docGrpShortUrl: "", docShortUrl: ""},
-      docInfo: [
-        {
-          label: '1',
-          url: "1",
-          children: [{
-            label: '1.1',
-            url: "1-1",
-            children: [{
-              label: '1.1.1',
-              url: "1-1-1",
-              children:
-                [{
-                  label: '1.1.1.1',
-                  url: "1-1-1-1",
-                }]
-            }, {
-              label: '1.1.2',
-              url: "1-1-2",
-            }]
-          },
-            {
-              label: '1.2',
-              url: "1-2",
-            },]
-        },
-        {
-          label: '2',
-          url: "2",
-          children: [{
-            label: '2.1',
-            url: "2-1",
-          },
-            {
-              label: '2.2',
-              url: "2-2",
-            },]
-        }
-      ],
+      kbInfo: {kbName: "", docGrpShortUrl: "", docShortUrl: "", grpName: "", docName: ""},
+      docInfo:[],
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -109,31 +75,35 @@ export default {
     this.kbInfo.kbName = this.$route.params.kbName
     this.kbInfo.docGrpShortUrl = this.$route.params.docGrpShortUrl
     this.kbInfo.docShortUrl = this.$route.params.docShortUrl
+    // if (this.kbInfo.docShortUrl === undefined) {
+    //   this.kbInfo.docShortUrl = this.kbInfo.docGrpShortUrl
+    // }
     this.content = this.contents[this.$route.params.docShortUrl]
+    console.log(this.kbInfo)
+    //this.$forceUpdate()
   },
   methods: {
     handleNodeClick: function (data) {
       let kbName = this.kbInfo.kbName
-      let groupShortUrl = this.getParentShortUrl(data.url, this.docInfo)
-      //alert(groupShortUrl)
-      if (groupShortUrl !== undefined) {
-        this.$router.push("/" + kbName + "/" + groupShortUrl + "/" + data.url)
+      let grp = this.getParentShortUrl(data.url, this.docInfo)
+      if (grp !== undefined) {
+        this.kbInfo.docName = data.label
+        this.kbInfo.grpName = grp.label
+        this.$router.push("/" + kbName + "/" + grp.url + "/" + data.url, {params: this.kbInfo})
       } else {
+        this.kbInfo.grpName = data.label
         this.$router.push("/" + kbName + "/" + data.url)
       }
 
     },
     getParentShortUrl: function (sonUrl, par) {
-      //console.log(sonUrl, par, par.length)
       if (par.length === undefined) {
         for (let j = 0; j < par.children.length; j++) {
-          //console.log(j, sonUrl, par.children[j])
           if (par.children[j].url === sonUrl) {
-            return par.url
+            return par
           }
           if (par.children[j].children !== undefined) {
             let result = this.getParentShortUrl(sonUrl, par.children[j])
-            //alert("res" + result)
             if (result !== undefined) {
               return result
             }
@@ -143,15 +113,11 @@ export default {
       }
 
       for (let i = 0; i < par.length; i++) {
-        //console.log(i,par[i])
         for (let j = 0; j < par[i].children.length; j++) {
-          //console.log(j,par[i].children[j])
           if (par[i].children[j].url === sonUrl) {
-            return par[i].url
+            return par[i]
           }
           if (par[i].children[j].children !== undefined) {
-            //console.log(sonUrl,par[i].children[j])
-            // console.log(this.getParentShortUrl(sonUrl, par[i].children[j]))
             let result = this.getParentShortUrl(sonUrl, par[i].children[j])
             if (result !== undefined) {
               return result
