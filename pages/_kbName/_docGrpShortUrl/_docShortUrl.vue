@@ -3,16 +3,16 @@
   <div>
 
     <el-container>
-      <el-header style="margin-top: 20px;margin-bottom: 0!important;height:40px">
-        <el-breadcrumb separator="/">
+      <el-header style="margin-top: 20px;margin-bottom: 0!important;height:60px;position: fixed;">
+        <el-breadcrumb separator="/" >
           <el-breadcrumb-item><a :href="'/'+kbInfo.kbName">{{kbInfo.kbName}}</a></el-breadcrumb-item>
           <el-breadcrumb-item v-if="kbInfo.docGrpShortUrl!==undefined"><a :href="'/'+kbInfo.kbName+'/'+kbInfo.docGrpShortUrl" >{{kbInfo.docGrpShortUrl}}</a></el-breadcrumb-item>
           <el-breadcrumb-item v-if="kbInfo.docShortUrl!==undefined"><a :href="'/'+kbInfo.kbName+'/'+kbInfo.docGrpShortUrl+'/'+kbInfo.docShortUrl">{{kbInfo.docShortUrl}}</a></el-breadcrumb-item>
         </el-breadcrumb>
       </el-header>
-      <el-container>
-        <el-aside style="height: calc(100vh - .29524rem);">
-          <el-tag>
+      <el-container style="position:fixed;top:60px;overflow:scroll;bottom:0;">
+        <el-aside style="height: calc(100vh);position: fixed;">
+          <el-tag style="margin-top: 10px;margin-bottom: 10px;margin-left: 10px">
             目录
           </el-tag>
           <el-tree :data="docInfo" :props="defaultProps"
@@ -20,13 +20,13 @@
                    :default-expand-all="true"
                    node-key="url"
                    :current-node-key="$route.params.docShortUrl"
-                   style="background-color:darkgray;"
+                   style="background-color:#fafafa!important;width: 300px;bottom:0;top:60px;position:fixed;height:100%;overflow-y: scroll"
           >
           </el-tree>
         </el-aside>
-        <el-container style="margin-right: 20%">
+        <el-container style="margin-left:320px;">
           <el-main>
-            <div v-html="content" style="margin-left: 10%;margin-top: 10px"> </div>
+            <div v-html="content" > </div>
           </el-main>
           <el-footer>
             <div>
