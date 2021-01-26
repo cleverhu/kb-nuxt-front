@@ -20,7 +20,9 @@
           </el-tag>
           <el-tree :data="docInfo" :props="defaultProps"
                    @node-click="handleNodeClick"
-                   :default-expand-all="true"
+                   @node-collapse="handleNodeCollapse"
+                   @node-expand="handleNodeExpand"
+                   :default-expanded-keys="expandArr"
                    node-key="url"
                    v-if="kbInfo.docShortUrl!==undefined"
                    :current-node-key="kbInfo.docShortUrl"
@@ -29,7 +31,9 @@
           </el-tree>
           <el-tree :data="docInfo" :props="defaultProps"
                    @node-click="handleNodeClick"
-                   :default-expand-all="true"
+                   @node-collapse="handleNodeCollapse"
+                   @node-expand="handleNodeExpand"
+                   :default-expanded-keys="expandArr"
                    node-key="url"
                    v-else
                    :current-node-key="kbInfo.docGrpShortUrl"
@@ -39,6 +43,7 @@
         </el-aside>
         <el-container style="margin-left:320px;">
           <el-main>
+            <h1 style="font-size: 30px;margin-bottom: 10px">{{ docTitle }}</h1>
             <div v-html="content"></div>
           </el-main>
           <el-footer>
@@ -57,6 +62,8 @@ export default {
   name: "docShortUrl",
   data() {
     return {
+      expandArr: [],
+      docTitle: "",
       content: "",
       kbInfo: {kbName: "", docGrpShortUrl: "", docShortUrl: "", grpName: "", docName: ""},
       docInfo: [],
@@ -85,26 +92,35 @@ export default {
     this.kbInfo.kbName = this.$route.params.kbName
     this.kbInfo.docGrpShortUrl = this.$route.params.docGrpShortUrl
     this.kbInfo.docShortUrl = this.$route.params.docShortUrl
-    // if (this.kbInfo.docShortUrl === undefined) {
-    //   this.kbInfo.docShortUrl = this.kbInfo.docGrpShortUrl
-    // }
+
     this.content = this.contents[this.$route.params.docShortUrl]
-    console.log(this.kbInfo)
-    //this.$forceUpdate()
+  },
+  mounted() {
+    let temp = JSON.parse(localStorage.getItem('expandArr'))
+    if (temp !== null) {
+      for (let i = 0; i < temp.length; i++) {
+        if (temp[i] !== null) {
+          this.expandArr.push(temp[i])
+        }
+      }
+
+    }
+    //
+    this.kbInfo.docName = localStorage.getItem('docName')
+    this.kbInfo.grpName = localStorage.getItem('grpName')
+    this.docTitle = this.kbInfo.docName
   },
   methods: {
     handleNodeClick: function (data) {
       let kbName = this.kbInfo.kbName
       let grp = this.getParentShortUrl(data.url, this.docInfo)
-      if (grp !== undefined) {
+      if (grp !== undefined && data.DocHref !== undefined) {
         this.kbInfo.docName = data.label
         this.kbInfo.grpName = grp.label
-        this.$router.push("/" + kbName + "/" + grp.url + "/" + data.url, {params: this.kbInfo})
-      } else {
-        this.kbInfo.grpName = data.label
-        this.$router.push("/" + kbName + "/" + data.url)
+        this.$router.push("/" + kbName + "/" + grp.url + "/" + data.url)
+        localStorage.setItem("docName", data.label)
+        localStorage.setItem("grpName", grp.label)
       }
-
     },
     getParentShortUrl: function (sonUrl, par) {
       if (par.length === undefined) {
@@ -136,6 +152,24 @@ export default {
 
         }
       }
+    },
+    getSonTitle: function (sonUrl, par) {
+      for (let i = 0; i < par.children.length; i++) {
+        if (par.children[i].url === sonUrl) {
+          return par.children[i].label
+        }
+      }
+    },
+    handleNodeCollapse: function (data) {
+      //console.log(data)
+      let index = this.expandArr.indexOf(data.url)
+      delete this.expandArr[index]
+      localStorage.setItem('expandArr', JSON.stringify(this.expandArr))
+    },
+    handleNodeExpand: function (data) {
+      //console.log(data)
+      this.expandArr.push(data.url)
+      localStorage.setItem('expandArr', JSON.stringify(this.expandArr))
     }
 
   }
