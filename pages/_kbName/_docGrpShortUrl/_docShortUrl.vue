@@ -105,7 +105,7 @@ export default {
     this.docTitle = this.kbInfo.docName
     window.setTimeout(()=>{
       this.flag=true
-    },20)
+    },5)
     // Vue.nextTick( ()=> {
     //   this.flag=true
     // })
