@@ -18,28 +18,21 @@
           <el-tag style="margin-top: 10px;margin-bottom: 10px;margin-left: 10px">
             目录
           </el-tag>
-          <el-tree :data="docInfo" :props="defaultProps"
-                   @node-click="handleNodeClick"
-                   @node-collapse="handleNodeCollapse"
-                   @node-expand="handleNodeExpand"
-                   :default-expanded-keys="expandArr"
-                   node-key="url"
-                   v-if="kbInfo.docShortUrl!==undefined"
-                   :current-node-key="kbInfo.docShortUrl"
-                   style="background-color:#fafafa!important;position:fixed;"
-          >
-          </el-tree>
-          <el-tree :data="docInfo" :props="defaultProps"
-                   @node-click="handleNodeClick"
-                   @node-collapse="handleNodeCollapse"
-                   @node-expand="handleNodeExpand"
-                   :default-expanded-keys="expandArr"
-                   node-key="url"
-                   v-else
-                   :current-node-key="kbInfo.docGrpShortUrl"
-                   style="background-color:#fafafa!important;position:fixed;"
-          >
-          </el-tree>
+          <keep-alive>
+            <el-tree :data="docInfo" :props="defaultProps"
+                     v-show="flag"
+                     @node-click="handleNodeClick"
+                     @node-collapse="handleNodeCollapse"
+                     @node-expand="handleNodeExpand"
+                     :default-expanded-keys="expandArr"
+                     node-key="url"
+                     :current-node-key="kbInfo.docShortUrl"
+                     style="background-color:#fafafa!important;position:fixed;"
+            >
+            </el-tree>
+
+          </keep-alive>
+
         </el-aside>
         <el-container style="margin-left:320px;">
           <el-main>
@@ -63,6 +56,7 @@ export default {
   data() {
     return {
       expandArr: [],
+      flag: false,
       docTitle: "",
       content: "",
       kbInfo: {kbName: "", docGrpShortUrl: "", docShortUrl: "", grpName: "", docName: ""},
@@ -109,6 +103,13 @@ export default {
     this.kbInfo.docName = localStorage.getItem('docName')
     this.kbInfo.grpName = localStorage.getItem('grpName')
     this.docTitle = this.kbInfo.docName
+    window.setTimeout(()=>{
+      this.flag=true
+    },20)
+    // Vue.nextTick( ()=> {
+    //   this.flag=true
+    // })
+    //
   },
   methods: {
     handleNodeClick: function (data) {
