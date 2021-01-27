@@ -1,16 +1,16 @@
 <template>
 
-  <div>33333
+  <div>3333
     {{kbInfo.docShortUrl}}
     {{kbInfo.docShortUrl}}
     {{kbInfo.kbName}}
+    <nuxt-child/>
   </div>
 </template>
 
 <script>
 export default {
   name: "docShortUrl",
-  layout: 'kbName',
   data() {
     return {
 
