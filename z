@@ -1,8 +1,5 @@
-git add .
-git commit -m "auto"
-git push -u origin master
 cd ..
-tar -czvf mynuxt.tar.gz my-nuxt-demo
+tar -czvf mynuxt.tar.gz kb-nuxt-front
 sshpass -p 'Hu928973510!' scp mynuxt.tar.gz ruler@101.132.107.3:/home/ruler/
 sshpass -p 'Hu928973510!' ssh ruler@101.132.107.3 <<end
 tar -xzvf mynuxt.tar.gz

@@ -3,7 +3,7 @@
   <div>
     <el-container style="margin-left:320px">
       <el-main>
-        <h1 style="font-size: 30px;margin-bottom: 10px">{{ docDetail.title }}</h1>
+        <h1 style="font-size: 30px;margin-bottom: 10px">123123{{ docDetail.title }}</h1>
         <div v-html="docDetail.content"></div>
       </el-main>
       <el-footer>
@@ -21,23 +21,22 @@ export default {
 
   data() {
     return {
+      docShortUrl: "",
       docDetail: {title: "", content: ""}
     };
-  },
-
-
-  mounted() {
-
   },
   created() {
 
   },
+  methods: {
+    getDocDetail:function (){
 
-  methods: {},
+    }
+  },
   watch: {
     $route: {
       handler(val) {
-        this.content = this.contents[val.params.docShortUrl]
+        this.docShortUrl = val.params.docShortUrl
         this.$forceUpdate()
       },
       // 深度观察监听

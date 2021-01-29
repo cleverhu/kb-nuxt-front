@@ -1,4 +1,4 @@
-# my-nuxt-demo
+# kb-nuxt-front
 
 ## Build Setup
 
