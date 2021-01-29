@@ -1,8 +1,6 @@
 <template>
   <div>
-    <el-button @click="login(input)">Hello</el-button>
-    <el-input v-model="input" placeholder="请输入内容"></el-input>
-
+<h1>hello world</h1>
   </div>
 
 </template>
